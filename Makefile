@@ -16,6 +16,6 @@ delete-prev-container:
 
 init: generate-yaml deploy-container deploy-proxy delete-prev-container
 
-deploy: generate-yaml deploy-container update-proxy delete-prev-container
+deploy: | generate-yaml deploy-container update-proxy delete-prev-container
 
 cleanup: generate-yaml update-proxy delete-prev-container
