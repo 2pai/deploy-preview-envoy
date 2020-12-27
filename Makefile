@@ -1,7 +1,7 @@
 PORT=8080
 CI_REGISTRY_IMAGE=jmalloc/echo-server:exp-feat-1ecfd275763eff1d6b4844ea3168962458c9f27a
 PROXY_STATUS=ext
-.PHONY: generate-yaml update-proxy deploy-container deploy-proxy delete-prev-container deploy
+.PHONY: generate-yaml update-proxy deploy-container deploy-proxy delete-prev-container deploy cleanup
 
 generate-yaml:
 	python3 gen.py $(PREV_SHA) $(CURR_SHA) $(BRANCH_NAME) $(PORT) $(PROXY_STATUS)
@@ -15,3 +15,5 @@ delete-prev-container:
 	docker container rm -f $(BRANCH_NAME)-$(PREV_SHA)
 
 deploy: deploy-container generate-yaml deploy-proxy delete-prev-container
+
+cleanup: generate-yaml update-proxy delete-prev-container
