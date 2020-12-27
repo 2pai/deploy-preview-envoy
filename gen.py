@@ -6,7 +6,7 @@ yaml = YAML(typ='safe')
 ## example command 
 ## python3 gen.py 0000000000000000000000000000000000000000 1ecfd275763eff1d6b4844ea3168962458c9f27a fitur-1
 ## in order $CI_COMMIT_BEFORE_SHA $CI_COMMIT_SHA $CI_COMMIT_REF_SLUG  
-DOMAIN = "2pai.local"
+DOMAIN = "2pai-dev.com"
 
 ## vars as defined below
 prev_sha = sys.argv[1]
@@ -24,9 +24,10 @@ def value_yaml(prev,curr,branch,port):
     if prev == "0000000000000000000000000000000000000000":
         val['list_svc'].append({
             'cluster_name': branch + "-cluster",
+            'route_name': branch + "-route",
             'service_name': branch + "-"+ curr, 
             'service_port': int(port),    
-            'domain': [ branch+'-*.'+DOMAIN]
+            'domain': [branch+'-*.'+DOMAIN]
         })
     for data in val['list_svc']:
         if data['cluster_name'] == branch+"-cluster" and data['service_name'] == (branch + "-"+ prev):

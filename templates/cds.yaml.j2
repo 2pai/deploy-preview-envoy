@@ -4,7 +4,7 @@ resources:
 - "@type": type.googleapis.com/envoy.config.cluster.v3.Cluster
   name: {{ svc.cluster_name }}
   connect_timeout: 1s
-  type: strict_dns
+  type: LOGICAL_DNS
   http2_protocol_options: {}
   load_assignment:
     cluster_name: {{ svc.cluster_name }}

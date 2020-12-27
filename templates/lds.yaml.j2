@@ -19,7 +19,7 @@ resources:
           name: local_route
           virtual_hosts:
           {% for svc in list_svc -%}
-          - name: {{ svc.cluster_name }}
+          - name: {{ svc.route_name }}
             domains: {{ svc.domain }}
             routes:
             - match:
