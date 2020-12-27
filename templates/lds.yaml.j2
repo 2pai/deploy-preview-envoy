@@ -1,0 +1,29 @@
+#jinja2:lstrip_blocks: True
+
+resources:
+- "@type": type.googleapis.com/envoy.config.listener.v3.Listener
+  name: listener_0
+  address:
+    socket_address:
+      address: 0.0.0.0
+      port_value: 10000
+  filter_chains:
+  - filters:
+      name: envoy.http_connection_manager
+      typed_config:
+        "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+        stat_prefix: ingress_http
+        http_filters:
+        - name: envoy.filters.http.router
+        route_config:
+          name: local_route
+          virtual_hosts:
+          {% for svc in list_svc -%}
+          - name: {{ svc.cluster_name }}
+            domains: {{ svc.domain }}
+            routes:
+            - match:
+                prefix: "/"
+              route:
+                cluster: {{svc.cluster_name}}
+          {% endfor %}

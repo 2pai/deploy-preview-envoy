@@ -1,0 +1,5 @@
+list_svc:
+- cluster_name: test
+  domain: [test.2pai.develop]
+  service_name: test
+  service_port: 8080
