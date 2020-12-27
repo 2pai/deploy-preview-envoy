@@ -1,6 +1,1 @@
-list_svc:
-- cluster_name: test-cluster
-  route_name: test-route
-  domain: [test.2pai.develop]
-  service_name: test
-  service_port: 8080
+list_svc: []

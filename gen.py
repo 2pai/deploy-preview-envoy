@@ -6,6 +6,7 @@ yaml = YAML(typ='safe')
 ## example command 
 ## python3 gen.py 0000000000000000000000000000000000000000 1ecfd275763eff1d6b4844ea3168962458c9f27a fitur-1
 ## in order $CI_COMMIT_BEFORE_SHA $CI_COMMIT_SHA $CI_COMMIT_REF_SLUG  
+
 DOMAIN = "2pai-dev.com"
 
 ## vars as defined below
@@ -27,11 +28,15 @@ def value_yaml(prev,curr,branch,port):
             'route_name': branch + "-route",
             'service_name': branch + "-"+ curr, 
             'service_port': int(port),    
-            'domain': [branch+'-*.'+DOMAIN]
+            'domain': [branch+'-'+curr+'.'+DOMAIN]
         })
-    for data in val['list_svc']:
-        if data['cluster_name'] == branch+"-cluster" and data['service_name'] == (branch + "-"+ prev):
-            data['service_name'] = branch + "-"+ curr
+    elif prev == curr: # If prev == curr then remove the val from the list (Assuming MR to branch master was merged, then set Makefile curr == prev)
+        val['list_svc'][:] = [x for x in val['list_svc'] if not (branch + "-"+ curr == x.get('service_name'))]
+    else:
+        for data in val['list_svc']:
+            if data['cluster_name'] == branch+"-cluster" and data['service_name'] == (branch + "-"+ prev):
+                data['service_name'] = branch + "-" + curr
+                data['domain'] = [branch+'-'+curr+'.'+DOMAIN]
 
     with open('vars/value.yaml','w') as out_yaml:
         yaml.dump(val,out_yaml) 
@@ -47,11 +52,11 @@ def generate_config(prev,curr,branch,svc_port):
     eds_config = jinja2.Template(eds_template).render(val)
     lds_config = jinja2.Template(lds_template).render(val)
     if status == 'new':
-        open('yaml/cds.yaml', 'w').write(eds_config)
-        open('yaml/lds.yaml', 'w').write(lds_config)
+        open('yaml/cds.yaml', 'w+').write(eds_config)
+        open('yaml/lds.yaml', 'w+').write(lds_config)
     else:
-        open('yaml/cds-new.yaml', 'w').write(eds_config)
-        open('yaml/lds-new.yaml', 'w').write(lds_config)
+        open('yaml/cds-new.yaml', 'w+').write(eds_config)
+        open('yaml/lds-new.yaml', 'w+').write(lds_config)
         
     print("Successfully Generate YAML for envoy-proxy")
 generate_config(prev_sha,curr_sha,curr_branch,svc_port)
