@@ -47,15 +47,15 @@ def value_yaml(prev,curr,branch,port):
 def generate_config(prev,curr,branch,svc_port):
     val = value_yaml(prev,curr,branch,svc_port)
 
-    eds_template = open('templates/cds.yaml.j2').read()
+    cds_template = open('templates/cds.yaml.j2').read()
     lds_template = open('templates/lds.yaml.j2').read()
-    eds_config = jinja2.Template(eds_template).render(val)
+    cds_config = jinja2.Template(cds_template).render(val)
     lds_config = jinja2.Template(lds_template).render(val)
     if status == 'new':
-        open('yaml/cds.yaml', 'w+').write(eds_config)
+        open('yaml/cds.yaml', 'w+').write(cds_config)
         open('yaml/lds.yaml', 'w+').write(lds_config)
     else:
-        open('yaml/cds-new.yaml', 'w+').write(eds_config)
+        open('yaml/cds-new.yaml', 'w+').write(cds_config)
         open('yaml/lds-new.yaml', 'w+').write(lds_config)
         
     print("Successfully Generate YAML for envoy-proxy")

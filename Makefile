@@ -14,8 +14,8 @@ deploy-container:
 delete-prev-container:
 	docker container rm -f $(BRANCH_NAME)-$(PREV_SHA) 2> /dev/null || true
 
-init: deploy-container generate-yaml deploy-proxy delete-prev-container
+init: generate-yaml deploy-container deploy-proxy delete-prev-container
 
-deploy: deploy-container generate-yaml update-proxy delete-prev-container
+deploy: generate-yaml deploy-container update-proxy delete-prev-container
 
 cleanup: generate-yaml update-proxy delete-prev-container
