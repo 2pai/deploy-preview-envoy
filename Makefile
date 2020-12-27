@@ -6,7 +6,8 @@ PROXY_STATUS=ext
 generate-yaml:
 	python3 gen.py $(PREV_SHA) $(CURR_SHA) $(BRANCH_NAME) $(PORT) $(PROXY_STATUS)
 update-proxy:
-	docker exec envoy mv /var/lib/envoy/cds-new.yaml /var/lib/envoy/cds.yaml && mv /var/lib/envoy/lds-new.yaml /var/lib/envoy/lds.yaml
+	docker exec envoy mv /var/lib/envoy/cds-new.yaml /var/lib/envoy/cds.yaml
+	docker exec envoy mv /var/lib/envoy/lds-new.yaml /var/lib/envoy/lds.yaml
 deploy-proxy:
 	docker run --name envoy -d -p 80:10000 -p 9901:9901 -v ${PWD}/envoy.yaml:/etc/envoy/envoy.yaml -v ${PWD}/yaml:/var/lib/envoy --network envoy envoyproxy/envoy-alpine:v1.16.0
 deploy-container:
