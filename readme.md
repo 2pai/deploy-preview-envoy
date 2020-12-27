@@ -1,3 +1,12 @@
+# Deploy Preview
+This project was inspired by deployment preview netifly. Trying to brings deployment preview not only for frontend apps, but also for backend apps. It will deploy your app to staging server using envoy-proxy (for routing) and docker container.
+
+![Deployment Preview Gitlab + Envoy](https://user-images.githubusercontent.com/22183588/103174975-1b4a9180-4899-11eb-9d17-cfe58cd81888.png)
+
+
+TODO:
+- [ ] Support for Gitlab CI
+- [ ] Support for Github Actions
 
 #### Init Envoy Proxy
 ```
