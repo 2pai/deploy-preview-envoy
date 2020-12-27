@@ -1,8 +1,23 @@
 
 #### Init Envoy Proxy
 ```
-make deploy-proxy PREV_SHA=0000000000000000000000000000000000000000 CURR_SHA=1ecfd275763eff1d6b4844ea3168962458c9f27a BRANCH_NAME=exp-feat PROXY_STATUS=new
+make init PREV_SHA=0000000000000000000000000000000000000000 CURR_SHA=1ecfd275763eff1d6b4844ea3168962458c9f27a BRANCH_NAME=exp-feat PROXY_STATUS=new
 ```
+### Deploy new container from feature branch
+New MR
+```
+make deploy PREV_SHA=0000000000000000000000000000000000000000 CURR_SHA=1ecfd275763eff1d6b4844ea3168962458c9f27a BRANCH_NAME=exp-feat
+```
+Upate Commit in MR
+```
+make deploy PREV_SHA=1ecfd275763eff1d6b4844ea3168962458c9f27a CURR_SHA=2ecfd275763eff1d6b4844ea3168962458c9f27a BRANCH_NAME=exp-feat
+```
+
+### Cleanup container & proxy after MR
+```
+make cleanup PREV_SHA=2ecfd275763eff1d6b4844ea3168962458c9f27a CURR_SHA=2ecfd275763eff1d6b4844ea3168962458c9f27a BRANCH_NAME=exp-feat
+``` 
+
 #### Generate Yaml
 
 New branch
